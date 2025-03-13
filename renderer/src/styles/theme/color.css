@@ -1,0 +1,9 @@
+@theme {
+  --color-*: initial;
+
+  --color-background: hsl(240 2% 10%);
+  --color-surface: hsl(240 11% 15%);
+
+  --color-foreground: hsl(0 0% 100% / 0.88);
+  --color-foreground-muted: hsl(0 0% 100% / 0.67);
+}

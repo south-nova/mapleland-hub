@@ -1,0 +1,28 @@
+@theme {
+  --text-*: initial;
+
+  --text-title-16: 1.6rem;
+  --text-title-16--line-height: 1.4;
+  --text-title-16--letter-spacing: -0.025em;
+  --text-title-16--font-weight: 600;
+
+  --text-title-18: 1.8rem;
+  --text-title-18--line-height: 1.4;
+  --text-title-18--letter-spacing: -0.025em;
+  --text-title-18--font-weight: 600;
+
+  --text-title-24: 2.4rem;
+  --text-title-24--line-height: 1.4;
+  --text-title-24--letter-spacing: -0.025em;
+  --text-title-24--font-weight: 600;
+
+  --text-body-12: 1.2rem;
+  --text-body-12--line-height: 1.4;
+  --text-body-12--letter-spacing: -0.025em;
+  --text-body-12--font-weight: 400;
+
+  --text-body-14: 1.4rem;
+  --text-body-14--line-height: 1.4;
+  --text-body-14--letter-spacing: -0.025em;
+  --text-body-14--font-weight: 400;
+}
