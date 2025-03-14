@@ -44,6 +44,9 @@ const eslintConfig = [
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       // 사용하지 않는 변수 경고
       '@typescript-eslint/no-unused-vars': 'warn',
+      // 정의되기 전에 변수 사용 금지
+      'no-use-before-define': 'off',
+      '@typescript-eslint/no-use-before-define': 'off',
       // 카멜케이스 네이밍 규칙 (속성 이름 제외)
       camelcase: ['error', { properties: 'never' }],
     },
