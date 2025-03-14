@@ -42,6 +42,8 @@ const eslintConfig = [
       'react-hooks/exhaustive-deps': 'warn',
       // 컴포넌트만 내보내기 검사 (상수 내보내기 허용)
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      // 사용하지 않는 변수 경고
+      '@typescript-eslint/no-unused-vars': 'warn',
       // 카멜케이스 네이밍 규칙 (속성 이름 제외)
       camelcase: ['error', { properties: 'never' }],
     },
