@@ -51,6 +51,8 @@ else app.setPath('userData', `${app.getPath('userData')} (development)`);
 
     isVisible = !isVisible;
   });
+
+  setupAutoUpdater(mainWindow);
 })();
 
 app.on('window-all-closed', () => {
