@@ -1,4 +1,6 @@
-import { Discord } from '@/components/icons';
+import { DiscordTag } from '@/components/DiscordTag';
+import { ItemInfo } from '@/components/ItemInfo';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/ToolTip';
 import { cn } from '@/lib/cn';
 import { TradeItem } from '@/types/trade';
 import { formatRelativeTime } from '@/utils/date';
@@ -9,9 +11,16 @@ interface TradeListProps {
   itemName: string;
   itemIconUrl: string;
   className?: string;
+  description?: string;
 }
 
-export const TradeList = ({ items, itemName, itemIconUrl, className }: TradeListProps) => {
+export const TradeList = ({
+  items,
+  itemName,
+  itemIconUrl,
+  className,
+  description,
+}: TradeListProps) => {
   return (
     <div className={cn('flex-1 overflow-hidden bg-surface rounded-md', className)}>
       <div className="h-full w-full p-2 overflow-y-auto">
@@ -23,6 +32,7 @@ export const TradeList = ({ items, itemName, itemIconUrl, className }: TradeList
                 item={item}
                 itemName={itemName}
                 itemIconUrl={itemIconUrl}
+                description={description}
               />
             );
           })}
@@ -36,17 +46,15 @@ interface TradeListItemProps {
   item: TradeItem;
   itemName: string;
   itemIconUrl: string;
+  description?: string;
 }
 
-const TradeListItem = ({ item, itemName, itemIconUrl }: TradeListItemProps) => {
+const TradeListItem = ({ item, itemName, itemIconUrl, description }: TradeListItemProps) => {
   return (
     <li key={item.createdAt} className="p-2 w-full rounded-md ">
       <div className="flex justify-between items-center border-b border-border/60 pb-0.5">
         {/* 디스코드 정보 */}
-        <div className="flex gap-2 items-center px-1 py-0.5 hover:bg-surface-accent transition-colors duration-150 select-none rounded-sm">
-          <Discord />
-          <span className="text-body-14">{item.discordUser.nickName}</span>
-        </div>
+        <DiscordTag user={item.discordUser} />
 
         {/* 등록 시간 */}
         <span className="text-body-12 text-foreground-muted">
@@ -57,10 +65,19 @@ const TradeListItem = ({ item, itemName, itemIconUrl }: TradeListItemProps) => {
       <div className="flex items-center justify-between mt-2">
         {/* 아이템 정보 */}
         <div className="flex items-center gap-2">
-          <div className="size-7 flex items-center justify-center bg-surface-accent rounded-sm">
-            <Image src={itemIconUrl} alt={itemName} width={16} height={16} />
-          </div>
-          <p className="text-title-16">{itemName}</p>
+          <ItemInfo
+            option={item.itemOption}
+            itemName={itemName}
+            itemIconUrl={itemIconUrl}
+            description={description}
+          />
+
+          <p className="text-title-16">
+            {itemName}
+            {item.itemOption.upgrade > 0 && (
+              <span className="ml-1">(+{item.itemOption.upgrade})</span>
+            )}
+          </p>
         </div>
 
         {/* 가격 */}
@@ -70,21 +87,30 @@ const TradeListItem = ({ item, itemName, itemIconUrl }: TradeListItemProps) => {
         </div>
       </div>
 
-      <div className="flex justify-between mt-1 gap-4 items-center">
+      <div className="justify-between mt-2 h-8 bg-background/60 border border-border/60 rounded-sm pl-2 pr-1 flex items-center">
         {/* 코멘트 */}
-        <p className="flex-1 text-body-14 truncate">{item.comment}</p>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <p className="flex-1 text-body-14 truncate ">{item.comment}</p>
+          </TooltipTrigger>
+          <TooltipContent align="start" className="max-w-[24rem] overflow-hidden">
+            {item.comment}
+          </TooltipContent>
+        </Tooltip>
 
         {/* 태그 */}
-        <div className="flex gap-1">
-          {item.itemOption.optionSummarize.map((option) => (
-            <span
-              key={option}
-              className="border border-border text-body-12 text-foreground-muted rounded-sm px-1.5 py-0.5"
-            >
-              {option}
-            </span>
-          ))}
-        </div>
+        {item.itemOption.optionSummarize && item.itemOption.optionSummarize.length > 0 && (
+          <div className="flex gap-1 ml-4">
+            {item.itemOption.optionSummarize.map((option) => (
+              <span
+                key={option}
+                className="text-body-12 bg-surface-accent text-foreground-muted rounded-sm px-1.5 py-0.5"
+              >
+                {option}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </li>
   );
