@@ -1,8 +1,15 @@
 export type Gender = '0' | '1' | '2';
 
+export interface SearchItem {
+  itemCode: string;
+  itemName: string;
+  itemIconUrl: string;
+  description: string;
+}
+
 export interface ItemOption {
   /** 아이템 코드 */
-  itemCode: number;
+  itemCode: string;
   /** 옵션 태그 */
   optionSummarize: null | string[];
 
@@ -14,6 +21,13 @@ export interface ItemOption {
   upgrade: number;
   /** 남은 업그레이드 횟수 */
   tuc?: number;
+
+  // 필요 옵션
+  reqLEV: number;
+  reqSTR: number;
+  reqDEX: number;
+  reqINT: number;
+  reqLUK: number;
 
   /** 마력 */
   incMAD?: number;
@@ -32,6 +46,10 @@ export interface ItemOption {
   /** 최대 체력 */
   incMHP?: number;
 
+  /** 이동속도 */
+  incSpeed?: number;
+  /** 점프력 */
+  incJump?: number;
   /** STR */
   incSTR?: number;
   /** DEX */
@@ -52,4 +70,6 @@ export interface DiscordUserInfo {
   account: string;
   /** 아바타 이미지 URL*/
   avatarUrl: string;
+  /** 프로바이더 ID */
+  providerId: string;
 }
