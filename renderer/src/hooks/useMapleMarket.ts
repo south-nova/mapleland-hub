@@ -17,11 +17,13 @@ export const useMapleMarket = ({ itemCode, tradeType, orderBy }: MapleStoreOptio
   });
 
   const trades = useMemo(() => {
+    if (!data) return [];
+
     const filtered = data.filter((item) => item.tradeType === tradeType);
     const sortedItems = filtered.sort((a, b) => {
       switch (orderBy) {
         case 'latest':
-          return b.createdAt.localeCompare(a.createdAt);
+          return (b.createdAt || '').localeCompare(a.createdAt || '');
         case 'lowest':
           return a.itemPrice - b.itemPrice;
         case 'highest':
