@@ -1,23 +1,26 @@
 import path from 'path';
 import { app, globalShortcut, ipcMain } from 'electron';
 import serve from 'electron-serve';
+import { BrowserWindow } from 'electron/main';
+
 import { createWindow } from './helpers';
+import { ItemDB } from './database/db';
+import { setupAutoUpdater } from './updater';
 
 const isProd = process.env.NODE_ENV === 'production';
-let isVisible = true;
 
-if (isProd) {
-  serve({ directory: 'app' });
-} else {
-  app.setPath('userData', `${app.getPath('userData')} (development)`);
-}
+let isVisible = true;
+let mainWindow: BrowserWindow | null = null;
+
+if (isProd) serve({ directory: 'app' });
+else app.setPath('userData', `${app.getPath('userData')} (development)`);
 
 (async () => {
   await app.whenReady();
 
-  const mainWindow = createWindow('main', {
+  mainWindow = createWindow('main', {
     width: 390,
-    height: 620,
+    height: 720,
     minWidth: 390,
     minHeight: 620,
     autoHideMenuBar: true,
@@ -43,11 +46,9 @@ if (isProd) {
 
   const toggleShortcut = process.platform === 'darwin' ? 'Command+O' : 'Alt+O';
   globalShortcut.register(toggleShortcut, () => {
-    if (isVisible) {
-      mainWindow.hide();
-    } else {
-      mainWindow.show();
-    }
+    if (isVisible) mainWindow.hide();
+    else mainWindow.show();
+
     isVisible = !isVisible;
   });
 })();
@@ -58,4 +59,20 @@ app.on('window-all-closed', () => {
 
 ipcMain.on('message', async (event, arg) => {
   event.reply('message', `${arg} World!`);
+});
+
+ipcMain.handle('search-items', async (_, query: string) => {
+  const db = ItemDB.getInstance();
+  return db.searchByName(query);
+});
+
+ipcMain.on('app-close', () => {
+  app.quit();
+});
+
+ipcMain.on('app-hide', () => {
+  if (mainWindow) {
+    mainWindow.hide();
+    isVisible = false;
+  }
 });
