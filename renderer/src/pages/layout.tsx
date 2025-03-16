@@ -5,5 +5,9 @@ export function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className={cn('antialiased bg-background w-screen h-screen')}>{children}</div>;
+  return (
+    <div className={cn('antialiased bg-background w-screen h-screen flex flex-col')}>
+      {children}
+    </div>
+  );
 }
