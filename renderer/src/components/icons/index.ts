@@ -5,3 +5,7 @@ export { CaretDown } from './CaretDown';
 export { CaretUp } from './CaretUp';
 export { Check } from './Check';
 export { Discord } from './Discord';
+export { CloseCircle } from './CloseCircle';
+export { Hide } from './Hide';
+export { Copy } from './Copy';
+export { CheckCircle } from './CheckCircle';
