@@ -67,6 +67,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
+
       - name: Build and Publish Electron App
         uses: nick-fields/retry@v3
         with:
@@ -76,4 +83,4 @@ jobs:
           retry_on: error
           command: pnpm run publish
         env:
-          GH_TOKEN: ${{ secrets.github_token }}
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
