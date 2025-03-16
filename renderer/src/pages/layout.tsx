@@ -1,6 +1,6 @@
 import { cn } from '@/lib/cn';
 
-export function Layout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
