@@ -2,37 +2,60 @@ name: Build and Release
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.gitignore'
+      - '.editorconfig'
+      - 'LICENSE'
+      - '.github/ISSUE_TEMPLATE/**'
+      - '.github/PULL_REQUEST_TEMPLATE.md'
+      - '.idea/**'
+      - '.vscode/**'
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: 'bash'
 
 jobs:
   release:
+    permissions:
+      contents: write
     runs-on: ${{ matrix.os }}
-    
+
     strategy:
+      fail-fast: true
       matrix:
         os: [windows-latest, macos-latest]
-    
+
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v3
-      
+
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
-      
+
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 9
           run_install: false
-      
+
       - name: Get pnpm store directory
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-      
+
       - name: Setup pnpm cache
         uses: actions/cache@v3
         with:
@@ -40,11 +63,17 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      
+
       - name: Build and Publish Electron App
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 15
+          max_attempts: 6
+          retry_wait_seconds: 15
+          retry_on: error
+          command: pnpm run publish
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: pnpm run publish
+          GH_TOKEN: ${{ secrets.github_token }}
