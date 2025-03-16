@@ -1,6 +1,6 @@
-appId: com.example.nextron
-productName: My Nextron App
-copyright: Copyright © 2018 Yoshihide Shiono
+appId: com.southnova.mapleland-overlay
+productName: Mapleland Overlay
+copyright: Copyright © 2025 SouthNova
 directories:
   output: dist
   buildResources: resources
@@ -9,4 +9,7 @@ files:
     filter:
       - package.json
       - app
-publish: null
+publish:
+  provider: github
+  owner: south-nova
+  repo: mapleland-overlay
