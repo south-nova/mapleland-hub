@@ -1,17 +1,31 @@
 import sqlite3 from 'better-sqlite3';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { disassemble } from 'es-hangul';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const isProd = process.env.NODE_ENV === 'production' || app.isPackaged;
+
 class ItemDB {
   static #instance;
   #db;
 
   constructor() {
-    this.#db = sqlite3(path.join(__dirname, '../database/items.db'));
+    let dbPath;
+
+    if (isProd) {
+      dbPath = path.join(process.resourcesPath, 'items.db');
+
+      if (!fs.existsSync(dbPath)) {
+        console.error('DB 파일을 찾을 수 없습니다:', dbPath);
+        throw new Error('DB 파일을 찾을 수 없습니다');
+      }
+    } else dbPath = path.join(__dirname, 'items.db');
+
+    this.#db = sqlite3(dbPath);
     this.#db.pragma('journal_mode = WAL');
   }
 
