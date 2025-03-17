@@ -6,7 +6,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className={cn('antialiased bg-background w-screen h-screen flex flex-col')}>
+    <div className={cn('antialiased rounded-lg bg-background w-screen h-screen flex flex-col')}>
       {children}
     </div>
   );

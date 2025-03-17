@@ -32,6 +32,7 @@ else app.setPath('userData', `${app.getPath('userData')} (development)`);
     frame: false,
     hasShadow: false,
     skipTaskbar: true,
+    roundedCorners: false,
     backgroundColor: '#00000000',
     webPreferences: {
       webSecurity: false,
