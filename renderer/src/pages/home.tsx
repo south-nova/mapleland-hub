@@ -5,11 +5,12 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { Title } from '@/components/Title';
 import { useSearchItemStore } from '@/store/searchItem';
+import { useAppVersion } from '@/hooks/useAppVersion';
 
 export default function HomePage() {
   const router = useRouter();
   const setSearchItem = useSearchItemStore((state) => state.setSearchItem);
-  const appVersion = window.ipc.getAppVersion();
+  const appVersion = useAppVersion();
 
   const handleSearch = (itemCode: string, itemName: string, description: string) => {
     const itemIconUrl = `https://maplestory.io/api/gms/62/item/${itemCode}/icon`;
