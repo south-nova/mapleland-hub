@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@plugin 'tailwindcss-animate';
 
 @import './theme/color.css';
 @import './theme/typo.css';
@@ -50,5 +51,11 @@ body {
   }
   .no-drag {
     -webkit-app-region: no-drag;
+  }
+}
+
+@layer components {
+  .animate-spin {
+    animation: spin 1s linear infinite;
   }
 }

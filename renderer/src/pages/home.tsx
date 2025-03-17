@@ -19,7 +19,7 @@ export default function HomePage() {
 
   return (
     <>
-      <Title />
+      <Title update />
 
       <div className="flex-1 overflow-hidden">
         <div className="p-4 flex flex-col h-full pt-12">

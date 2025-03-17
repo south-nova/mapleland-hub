@@ -9,3 +9,5 @@ export { CloseCircle } from './CloseCircle';
 export { Hide } from './Hide';
 export { Copy } from './Copy';
 export { CheckCircle } from './CheckCircle';
+export { Update } from './Update';
+export { Loading } from './Loading';

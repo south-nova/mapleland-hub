@@ -1,13 +1,16 @@
 import path from 'path';
-import { app, globalShortcut, ipcMain } from 'electron';
+import { app, BrowserWindow, globalShortcut, ipcMain } from 'electron';
 import serve from 'electron-serve';
-import { BrowserWindow } from 'electron/main';
+import log from 'electron-log';
 
 import { createWindow } from './helpers';
-import { ItemDB } from './database/db';
-import { setupAutoUpdater } from './updater';
+import { db } from './database/db';
+import { setupUpdater } from './updater';
 
-const isProd = process.env.NODE_ENV === 'production';
+log.transports.console.level = 'debug';
+log.transports.file.level = 'debug';
+
+const isProd = process.env.NODE_ENV === 'production' || app.isPackaged;
 
 let isVisible = true;
 let mainWindow: BrowserWindow | null = null;
@@ -36,12 +39,16 @@ else app.setPath('userData', `${app.getPath('userData')} (development)`);
     },
   });
 
-  if (isProd) {
-    await mainWindow.loadURL('app://./home');
-  } else {
-    const port = process.argv[2];
-    await mainWindow.loadURL(`http://localhost:${port}/home`);
-    mainWindow.webContents.openDevTools();
+  try {
+    if (isProd) {
+      await mainWindow.loadURL('app://./home');
+    } else {
+      const port = process.argv[2];
+      await mainWindow.loadURL(`http://localhost:${port}/home`);
+      mainWindow.webContents.openDevTools();
+    }
+  } catch (error) {
+    log.error('메인 윈도우 로드 실패:', error);
   }
 
   const toggleShortcut = process.platform === 'darwin' ? 'Command+O' : 'Alt+O';
@@ -52,7 +59,7 @@ else app.setPath('userData', `${app.getPath('userData')} (development)`);
     isVisible = !isVisible;
   });
 
-  setupAutoUpdater(mainWindow);
+  setupUpdater(mainWindow);
 })();
 
 app.on('window-all-closed', () => {
@@ -64,7 +71,6 @@ ipcMain.on('message', async (event, arg) => {
 });
 
 ipcMain.handle('search-items', async (_, query: string) => {
-  const db = ItemDB.getInstance();
   return db.searchByName(query);
 });
 
