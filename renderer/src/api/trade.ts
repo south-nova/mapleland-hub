@@ -5,5 +5,6 @@ export const fetchStoreItems = async (itemCode: string) => {
     `https://api.mapleland.gg/trade?itemCode=${itemCode}&lowPrice=0&highPrice=999999999`,
   );
   const data = await response.json();
-  return mapResponseToTradeItem(data);
+  const filteredData = data.filter((item) => item.tradeStatus === true);
+  return mapResponseToTradeItem(filteredData);
 };
