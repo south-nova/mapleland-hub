@@ -4,7 +4,7 @@ import serve from 'electron-serve';
 import log from 'electron-log';
 
 import { createWindow } from './helpers';
-import { ItemDB } from './database/db';
+import { db } from './database/db';
 import { setupUpdater } from './updater';
 
 log.transports.console.level = 'debug';
@@ -71,7 +71,6 @@ ipcMain.on('message', async (event, arg) => {
 });
 
 ipcMain.handle('search-items', async (_, query: string) => {
-  const db = ItemDB.getInstance();
   return db.searchByName(query);
 });
 
