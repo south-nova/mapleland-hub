@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
+import { version } from '../package.json';
 
 const handler = {
   send: (channel: string, value?: unknown) => ipcRenderer.send(channel, value),
@@ -14,6 +15,7 @@ const handler = {
   invoke: (channel: string, ...args: unknown[]) => ipcRenderer.invoke(channel, ...args),
   close: () => ipcRenderer.send('app-close'),
   hide: () => ipcRenderer.send('app-hide'),
+  getAppVersion: () => version,
 };
 
 contextBridge.exposeInMainWorld('ipc', handler);

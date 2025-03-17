@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { SearchInput } from '@/components/ui/SearchInput';
 import { useRouter } from 'next/router';
@@ -9,6 +9,7 @@ import { useSearchItemStore } from '@/store/searchItem';
 export default function HomePage() {
   const router = useRouter();
   const setSearchItem = useSearchItemStore((state) => state.setSearchItem);
+  const appVersion = window.ipc.getAppVersion();
 
   const handleSearch = (itemCode: string, itemName: string, description: string) => {
     const itemIconUrl = `https://maplestory.io/api/gms/62/item/${itemCode}/icon`;
@@ -48,7 +49,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          <p className="text-center text-foreground-muted text-body-12 mt-3">@south-nova</p>
+          <p className="text-center text-foreground-muted text-body-12 mt-3">
+            @south-nova (v{appVersion})
+          </p>
         </div>
       </div>
     </>
