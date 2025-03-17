@@ -11,7 +11,7 @@
   },
   "scripts": {
     "dev": "nextron",
-    "build": "pnpm exec electron-builder",
+    "build": "nextron build",
     "lint": "eslint . --ext .ts && eslint renderer/ --ext .tsx",
     "postinstall": "electron-builder install-app-deps",
     "publish": "electron-builder -p always",
@@ -19,7 +19,7 @@
   },
   "build": {
     "appId": "com.southnova.mapleland-hub",
-    "productName": "메랜허브",
+    "productName": "MapleLandHub",
     "mac": {
       "target": [
         "dmg",
@@ -65,7 +65,7 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "메랜허브"
+      "shortcutName": "MapleLandHub"
     }
   },
   "dependencies": {
@@ -82,7 +82,8 @@
     "es-hangul": "^2.3.2",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
-    "zustand": "^5.0.3"
+    "zustand": "^5.0.3",
+    "electron-store": "^8.2.0"
   },
   "devDependencies": {
     "@babel/runtime-corejs3": "^7.26.10",
