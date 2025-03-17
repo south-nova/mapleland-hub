@@ -45,9 +45,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Yarn
-        run: npm install -g yarn
-
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
@@ -66,12 +63,12 @@ jobs:
       - name: Build application
         run: yarn run build
 
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@v1
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.PRIVATE_KEY }}
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
 
       - name: Build and Publish Electron App
         uses: nick-fields/retry@v3
@@ -82,4 +79,4 @@ jobs:
           retry_on: error
           command: yarn run publish
         env:
-          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
