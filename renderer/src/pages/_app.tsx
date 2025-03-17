@@ -1,6 +1,6 @@
 import React from 'react';
 import type { AppProps } from 'next/app';
-import { Layout } from '@/pages/layout';
+import Layout from '@/pages/layout';
 
 import '../styles/globals.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
