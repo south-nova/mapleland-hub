@@ -1,5 +1,5 @@
-appId: com.southnova.mapleland-overlay
-productName: Mapleland Overlay
+appId: com.southnova.mapleland-hub
+productName: 메랜허브
 copyright: Copyright © 2025 SouthNova
 directories:
   output: dist
@@ -12,4 +12,4 @@ files:
 publish:
   provider: github
   owner: south-nova
-  repo: mapleland-overlay
+  repo: mapleland-hub
