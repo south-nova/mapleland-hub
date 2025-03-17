@@ -59,7 +59,10 @@ jobs:
           app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.PRIVATE_KEY }}
 
-      - name: Build and publish
-        run: yarn run publish
+      - name: Build application
+        run: yarn build
+
+      - name: Publish application
+        run: yarn publish
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
