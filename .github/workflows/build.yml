@@ -2,20 +2,8 @@ name: Build and Release
 
 on:
   push:
-    branches:
-      - main
     tags:
       - 'v*'
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-      - '.gitignore'
-      - '.editorconfig'
-      - 'LICENSE'
-      - '.github/ISSUE_TEMPLATE/**'
-      - '.github/PULL_REQUEST_TEMPLATE.md'
-      - '.idea/**'
-      - '.vscode/**'
 
 concurrency:
   group: ci-${{ github.ref }}
