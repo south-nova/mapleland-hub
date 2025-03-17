@@ -18,16 +18,19 @@ export const setupUpdater = (mainWindow: BrowserWindow) => {
 
   // 업데이트 가능
   autoUpdater.on('update-available', (info: UpdateInfo) => {
+    log.info('업데이트 가능', info);
     mainWindow.webContents.send('update-available', info);
   });
 
   // 업데이트 다운로드 완료
   autoUpdater.on('update-downloaded', (info: UpdateDownloadedEvent) => {
+    log.info('업데이트 다운로드 완료', info);
     mainWindow.webContents.send('update-downloaded', info);
   });
 
   // 업데이트 오류 발생
   autoUpdater.on('error', (err: Error) => {
+    log.error('업데이트 오류 발생', err);
     mainWindow.webContents.send('update-error', err.message);
   });
 };
