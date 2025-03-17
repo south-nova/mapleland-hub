@@ -2,7 +2,7 @@
   "private": true,
   "name": "mapleland-hub",
   "description": "메이플랜드 종합 도구",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "SouthNova <southnova95@gmail.com>",
   "main": "app/background.js",
   "repository": {
