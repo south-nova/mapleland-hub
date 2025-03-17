@@ -2,7 +2,7 @@
   "private": true,
   "name": "mapleland-hub",
   "description": "메이플랜드 종합 도구",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "SouthNova <southnova95@gmail.com>",
   "main": "app/background.js",
   "repository": {
@@ -12,6 +12,7 @@
   "scripts": {
     "dev": "nextron",
     "build": "nextron build --publish always",
+    "build:dev": "nextron build",
     "lint": "eslint . --ext .ts && eslint renderer/ --ext .tsx",
     "postinstall": "electron-builder install-app-deps",
     "rebuild": "electron-rebuild -f -w better-sqlite3"
