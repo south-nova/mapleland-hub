@@ -11,10 +11,9 @@
   },
   "scripts": {
     "dev": "nextron",
-    "build": "nextron build",
+    "build": "nextron build --publish always",
     "lint": "eslint . --ext .ts && eslint renderer/ --ext .tsx",
     "postinstall": "electron-builder install-app-deps",
-    "publish": "electron-builder -p always",
     "rebuild": "electron-rebuild -f -w better-sqlite3"
   },
   "build": {
