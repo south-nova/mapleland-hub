@@ -61,8 +61,8 @@ jobs:
 
       - name: Build application
         run: yarn build
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
 
       - name: Publish application
         run: yarn publish
-        env:
-          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
