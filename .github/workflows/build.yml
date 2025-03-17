@@ -45,24 +45,20 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install yarn
-        uses: yarn/action-setup@v2
-        with:
-          version: 9
-          run_install: false
+      - name: Install Yarn
+        run: npm install -g yarn
 
-      - name: Get yarn store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(yarn store path --silent)" >> $GITHUB_ENV
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Setup yarn cache
         uses: actions/cache@v3
         with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-yarn-store-${{ hashFiles('**/yarn-lock.yaml') }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-store-
+            ${{ runner.os }}-yarn-
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
