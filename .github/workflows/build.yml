@@ -45,30 +45,30 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
+      - name: Install yarn
+        uses: yarn/action-setup@v2
         with:
           version: 9
           run_install: false
 
-      - name: Get pnpm store directory
+      - name: Get yarn store directory
         shell: bash
         run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+          echo "STORE_PATH=$(yarn store path --silent)" >> $GITHUB_ENV
 
-      - name: Setup pnpm cache
+      - name: Setup yarn cache
         uses: actions/cache@v3
         with:
           path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-yarn-store-${{ hashFiles('**/yarn-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+            ${{ runner.os }}-yarn-store-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: yarn install --frozen-lockfile
 
       - name: Build application
-        run: pnpm run build
+        run: yarn run build
 
       - name: Generate token
         id: generate_token
@@ -84,6 +84,6 @@ jobs:
           max_attempts: 6
           retry_wait_seconds: 15
           retry_on: error
-          command: pnpm run publish
+          command: yarn run publish
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
